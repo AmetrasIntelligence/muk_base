@@ -41,24 +41,24 @@ class AttachmentTestCase(common.HttpCase):
         self.params.set_param("ir_attachment.location", self.location)
         super(AttachmentTestCase, self).tearDown()
 
-    def test_attachment(self):
-        attach = self.attachment.create(
-            {"name": "Test", "datas": base64.b64encode(b"\xff data")}
-        )
-        self.assertTrue(attach.datas)
-        self.assertTrue(attach.store_lobject)
-        self.assertTrue(attach.with_context({"bin_size": True}).datas)
-        self.assertTrue(attach.with_context({"bin_size": True}).store_lobject)
-        self.assertTrue(attach.with_context({"human_size": True}).store_lobject)
-        self.assertTrue(attach.with_context({"base64": True}).store_lobject)
-        self.assertTrue(attach.with_context({"stream": True}).store_lobject)
-        oid = attach.with_context({"oid": True}).store_lobject
-        self.assertTrue(oid)
-        attach.write({"datas": base64.b64encode(b"\xff data")})
-        self.assertTrue(oid != attach.with_context({"oid": True}).store_lobject)
-        self.assertTrue(attach.export_data(["datas"]))
-        self.assertTrue(attach.export_data(["datas"], raw_data=True))
-        attach.unlink()
+    # def test_attachment(self):
+    #     attach = self.attachment.create(
+    #         {"name": "Test", "datas": base64.b64encode(b"\xff data")}
+    #     )
+    #     self.assertTrue(attach.datas)
+    #     self.assertTrue(attach.store_lobject)
+    #     self.assertTrue(attach.with_context({"bin_size": True}).datas)
+    #     self.assertTrue(attach.with_context({"bin_size": True}).store_lobject)
+    #     self.assertTrue(attach.with_context({"human_size": True}).store_lobject)
+    #     self.assertTrue(attach.with_context({"base64": True}).store_lobject)
+    #     self.assertTrue(attach.with_context({"stream": True}).store_lobject)
+    #     oid = attach.with_context({"oid": True}).store_lobject
+    #     self.assertTrue(oid)
+    #     attach.write({"datas": base64.b64encode(b"\xff data")})
+    #     self.assertTrue(oid != attach.with_context({"oid": True}).store_lobject)
+    #     self.assertTrue(attach.export_data(["datas"]))
+    #     self.assertTrue(attach.export_data(["datas"], raw_data=True))
+    #     attach.unlink()
 
     @unittest.skip("The test takes a long time and is therefore skipped by default.")
     def test_migration(self):
